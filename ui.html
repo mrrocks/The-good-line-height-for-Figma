@@ -1,11 +1,15 @@
 
 <p>Multiplier: <input id="multiplier" value="1.3"></p>
-<p>Grid row height: <input id="rowHeight" value="8"></p>
+<p>Grid row height: <input id="grid" value="8"></p>
 
-<button id="change">Change opacity</button>
+<button id="change">Calculate line-height</button>
 
 <script>
   document.getElementById('change').onclick = () => {
-    parent.postMessage()
+    parent.postMessage({pluginMessage: { 
+      type: "calculate",
+      multiplier: Number(document.getElementById('multiplier').value),
+      grid: Number(document.getElementById('grid').value)
+    }}, "*")
   }
 </script>
