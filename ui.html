@@ -7,8 +7,9 @@
     position: relative;
     box-sizing: border-box;
     font: 11px/16px "Inter", sans-serif;
+    letter-spacing: .053px;
     margin: 0;
-    padding: 16px;
+    padding: 15px 16px 0 16px;
   }
 
   /*  FONTS */
@@ -43,21 +44,33 @@
   }
   section {
     display: flex;
+    align-items: baseline;
   }
   section:first-child {
     margin-bottom: 6px;
   }
   label {
-    width: 75%;
-    color: rgba(0, 0, 0, 0.3);
-    font-weight: 500;
+    width: calc(100% - 34px);
+    color: #b3b3b3;
   }
   input {
-    width: 25%;
+    width: 34px;
+    border-radius: 2px;
     height: 30px;
     text-align: right;
-    padding: 7px;
+    padding: 0 8px;
+    border: 1px solid transparent;
+    background-color: transparent;
   }
+
+  input:hover {
+    border: 1px solid #CCC;  
+  }
+  input:focus {
+    border: 2px solid #18a0fb;
+    outline: none;
+    padding: 0 7px;
+  } 
 
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -75,7 +88,11 @@
     color: white;
     padding: 8px 0;
     font-weight: 500;
-    margin-top: 13px;
+    margin-top: 14px;
+  }
+
+  .disabled {
+    
   }
 
   a {
@@ -99,7 +116,7 @@
 
 <button id="change">Apply line-height to selection</button>
 
-<a href="https://thegoodlineheight.com">Learn more</a>
+<a href="https://thegoodlineheight.com" target="_blank">Learn more</a>
 
 <script>
   document.getElementById("change").onclick = () => {
