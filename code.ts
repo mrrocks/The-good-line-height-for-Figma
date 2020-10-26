@@ -1,4 +1,5 @@
 figma.showUI(__html__)
+figma.ui.resize(240, 168)
 
 // figma.ui.onmessage = msg => {
 //   // One way of distinguishing between different types of messages sent from
@@ -23,26 +24,28 @@ figma.showUI(__html__)
 
 // figma.loadFontAsync({ family: "Roboto", style: "Regular" })
 
-let calculateLineHeight = (size, multiplier, grid) => {
+let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
   let lineHeight = Math.ceil((size * multiplier) / grid) * grid
 
   return lineHeight
 }
 
 let updateSelection = (event) => {
-  const node = figma.currentPage.selection[0]
+  const selection = figma.currentPage.selection
 
-  figma.loadFontAsync(node.fontName).then(() => {
-    const newLineHeight = { ...node.lineHeight }
-
-    newLineHeight.value = calculateLineHeight(
-      node.fontSize,
-      event.multiplier,
-      event.grid
-    )
-
-    node.lineHeight = newLineHeight
-  })
+  for (let el of selection) {
+    figma.loadFontAsync(el.fontName).then(() => {
+      let newLineHeight = { ...el.lineHeight }
+  
+      newLineHeight.value = calculateLineHeight(
+        el.fontSize,
+        event.multiplier,
+        event.grid
+      )
+  
+      el.lineHeight = newLineHeight
+    })
+  }
 }
 
 figma.ui.onmessage = (event) => {

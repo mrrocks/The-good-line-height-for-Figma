@@ -1,4 +1,5 @@
 figma.showUI(__html__);
+figma.ui.resize(240, 168);
 // figma.ui.onmessage = msg => {
 //   // One way of distinguishing between different types of messages sent from
 //   // your HTML page is to use an object with a "type" property like this.
@@ -24,12 +25,14 @@ let calculateLineHeight = (size, multiplier, grid) => {
     return lineHeight;
 };
 let updateSelection = (event) => {
-    const node = figma.currentPage.selection[0];
-    figma.loadFontAsync(node.fontName).then(() => {
-        const newLineHeight = Object.assign({}, node.lineHeight);
-        newLineHeight.value = calculateLineHeight(node.fontSize, event.multiplier, event.grid);
-        node.lineHeight = newLineHeight;
-    });
+    const selection = figma.currentPage.selection;
+    for (let el of selection) {
+        figma.loadFontAsync(el.fontName).then(() => {
+            let newLineHeight = Object.assign({}, el.lineHeight);
+            newLineHeight.value = calculateLineHeight(el.fontSize, event.multiplier, event.grid);
+            el.lineHeight = newLineHeight;
+        });
+    }
 };
 figma.ui.onmessage = (event) => {
     updateSelection(event);
