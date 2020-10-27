@@ -1,11 +1,11 @@
 figma.showUI(__html__)
 figma.ui.resize(240, 168)
 
-let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
+const calculateLineHeight = (size: number, multiplier: number, grid: number) => {
   return Math.ceil((size * multiplier) / grid) * grid
 }
 
-let updateSelection = (event) => {
+const updateSelection = (event) => {
   figma.currentPage.selection.forEach((el) => {
     figma.loadFontAsync(el.fontName).then(() => {
       el.lineHeight.value = calculateLineHeight(
@@ -17,9 +17,9 @@ let updateSelection = (event) => {
   })
 }
 
-let isTextNode = (node) => node.type == "TEXT"
+const isTextNode = (node) => node.type == "TEXT"
 
-let checkSelection = () => {
+const checkSelection = () => {
   if (figma.currentPage.selection.every(isTextNode)) {
     figma.ui.postMessage("valid selection")
   } else {
