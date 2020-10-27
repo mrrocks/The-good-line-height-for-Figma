@@ -26,14 +26,11 @@ let updateSelection = (event) => {
 let checkSelection = () => {
   let selection = figma.currentPage.selection
 
-  if (selection.length == 0) {
-    figma.ui.postMessage("invalid selection")
-  } else if (
-    selection.length > 0 &&
-    selection.every((node) => node.type == "TEXT")
-  ) {
+  if (selection.every((node) => node.type == "TEXT")) {
     figma.ui.postMessage("valid selection")
-  } 
+  } else {
+    figma.ui.postMessage("invalid selection")
+  }
 }
 
 checkSelection()
