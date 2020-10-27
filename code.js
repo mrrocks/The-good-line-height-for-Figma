@@ -8,6 +8,7 @@ const updateSelection = (event) => {
         figma.loadFontAsync(el.fontName).then(() => {
             let newLineHeight = Object.assign({}, el.lineHeight);
             newLineHeight.value = calculateLineHeight(el.fontSize, event.multiplier, event.grid);
+            el.lineHeight = newLineHeight;
         });
     });
 };
