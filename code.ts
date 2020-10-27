@@ -19,10 +19,12 @@ let updateSelection = (event) => {
   }
 }
 
+let isTextNode = (node) => node.type == "TEXT"
+
 let checkSelection = () => {
   let selection = figma.currentPage.selection
 
-  if (selection.every((node) => node.type == "TEXT")) {
+  if (selection.every(isTextNode)) {
     figma.ui.postMessage("valid selection")
   } else {
     figma.ui.postMessage("invalid selection")
