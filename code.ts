@@ -10,15 +10,11 @@ let updateSelection = (event) => {
 
   for (let el of selection) {
     figma.loadFontAsync(el.fontName).then(() => {
-      let newLineHeight = { ...el.lineHeight }
-
-      newLineHeight.value = calculateLineHeight(
+      el.lineHeight.value = calculateLineHeight(
         el.fontSize,
         event.multiplier,
         event.grid
       )
-
-      el.lineHeight = newLineHeight
     })
   }
 }
