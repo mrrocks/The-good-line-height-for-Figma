@@ -42,6 +42,4 @@ checkSelection()
 
 figma.on("selectionchange", checkSelection)
 
-figma.ui.onmessage = (event) => {
-  updateSelection(event)
-}
+figma.ui.onmessage = updateSelection
