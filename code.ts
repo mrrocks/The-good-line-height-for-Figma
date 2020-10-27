@@ -6,9 +6,7 @@ let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
 }
 
 let updateSelection = (event) => {
-  let selection = figma.currentPage.selection
-
-  selection.forEach((el) => {
+  figma.currentPage.selection.forEach((el) => {
     figma.loadFontAsync(el.fontName).then(() => {
       el.lineHeight.value = calculateLineHeight(
         el.fontSize,
@@ -22,9 +20,7 @@ let updateSelection = (event) => {
 let isTextNode = (node) => node.type == "TEXT"
 
 let checkSelection = () => {
-  let selection = figma.currentPage.selection
-
-  if (selection.every(isTextNode)) {
+  if (figma.currentPage.selection.every(isTextNode)) {
     figma.ui.postMessage("valid selection")
   } else {
     figma.ui.postMessage("invalid selection")
