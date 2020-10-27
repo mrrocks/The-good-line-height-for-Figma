@@ -27,20 +27,22 @@ let updateSelection = (event) => {
   }
 }
 
-let enableButton = () => {}
-
-let disableButton = () => {}
-
-
-figma.on("selectionchange", () => { 
+let checkSelection = () => {
   selection = figma.currentPage.selection
-  
+
   if (selection.length == 0) {
-    console.log("nothing selected")
-  } else if (selection.length > 0 && selection.every(node => node.type == "TEXT")) {
-    console.log(selection)
-  }
-})
+    figma.ui.postMessage("invalid selection")
+  } else if (
+    selection.length > 0 &&
+    selection.every((node) => node.type == "TEXT")
+  ) {
+    figma.ui.postMessage("valid selection")
+  } 
+}
+
+checkSelection()
+
+figma.on("selectionchange", checkSelection)
 
 figma.ui.onmessage = (event) => {
   updateSelection(event)
