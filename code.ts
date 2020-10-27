@@ -1,8 +1,6 @@
 figma.showUI(__html__)
 figma.ui.resize(240, 168)
 
-let selection = figma.currentPage.selection
-
 let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
   let lineHeight = Math.ceil((size * multiplier) / grid) * grid
 
@@ -10,7 +8,7 @@ let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
 }
 
 let updateSelection = (event) => {
-  selection = figma.currentPage.selection
+  let selection = figma.currentPage.selection
 
   for (let el of selection) {
     figma.loadFontAsync(el.fontName).then(() => {
@@ -28,7 +26,7 @@ let updateSelection = (event) => {
 }
 
 let checkSelection = () => {
-  selection = figma.currentPage.selection
+  let selection = figma.currentPage.selection
 
   if (selection.length == 0) {
     figma.ui.postMessage("invalid selection")
