@@ -2,9 +2,7 @@ figma.showUI(__html__)
 figma.ui.resize(240, 168)
 
 let calculateLineHeight = (size: number, multiplier: number, grid: number) => {
-  let lineHeight = Math.ceil((size * multiplier) / grid) * grid
-
-  return lineHeight
+  return Math.ceil((size * multiplier) / grid) * grid
 }
 
 let updateSelection = (event) => {
