@@ -1,44 +1,49 @@
-figma.showUI(__html__)
-figma.ui.resize(240, 168)
+figma.showUI(__html__, { width: 240, height: 168 });
 
 const calculateLineHeight = (
   size: number,
   multiplier: number,
   grid: number
-) => {
-  return Math.ceil((size * multiplier) / grid) * grid
-}
+): number => {
+  return Math.round((size * multiplier) / grid) * grid;
+};
 
-const updateSelection = (event) => {
-  figma.currentPage.selection.forEach((el) => {
-    figma.loadFontAsync(el.fontName).then(() => {
-      let newLineHeight = { ...el.lineHeight }
+const updateSelection = async (event: { multiplier: number; grid: number }) => {
+  const selection = figma.currentPage.selection;
 
-      newLineHeight.value = calculateLineHeight(
-        el.fontSize,
+  for (const el of selection) {
+    if (el.type === "TEXT") {
+      if (el.fontName === figma.mixed) continue;
+      await figma.loadFontAsync(el.fontName as FontName);
+
+      if (el.fontSize === figma.mixed) continue;
+      const newLineHeightValue = calculateLineHeight(
+        el.fontSize as number,
         event.multiplier,
         event.grid
-      )
+      );
 
-      el.lineHeight = newLineHeight
-    })
-  })
-}
-
-const isTextNode = (node) => node.type == "TEXT"
+      if (el.lineHeight !== figma.mixed) {
+        el.lineHeight =
+          el.lineHeight.unit === "AUTO"
+            ? { unit: "PIXELS", value: newLineHeightValue }
+            : { ...el.lineHeight, value: newLineHeightValue };
+      }
+    }
+  }
+};
 
 const checkSelection = () => {
-  const selection = figma.currentPage.selection
+  const selection = figma.currentPage.selection;
+  const message =
+    selection.length === 0 || !selection.every((el) => el.type === "TEXT")
+      ? "invalid selection"
+      : "valid selection";
+  figma.ui.postMessage(message);
+};
 
-  if (selection.length == 0) {
-    figma.ui.postMessage("invalid selection")
-  } else if (selection.every(isTextNode)) {
-    figma.ui.postMessage("valid selection")
-  }
-}
+checkSelection();
 
-checkSelection()
+figma.on("selectionchange", checkSelection);
 
-figma.on("selectionchange", checkSelection)
-
-figma.ui.onmessage = updateSelection
+figma.ui.onmessage = (msg) => updateSelection(msg);
